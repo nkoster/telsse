@@ -1,17 +1,17 @@
-# Terminal Style SSE Chat
+## TELSSE
 
 This project demonstrates a simple implementation of a server-sent events (SSE) application with a terminal-like web interface,
 utilizing TailwindCSS for styling and Golang for the backend. The application serves a static website and maintains a telnet
 service for receiving messages, which are then broadcasted in real-time to connected web clients via SSE.
 
-## Features
+### Features
 
 - Static website serving using Golang
 - Real-time message broadcasting using Server-Sent Events (SSE)
 - Terminal-like interface for message display using TailwindCSS
 - Telnet service for receiving messages
 
-## Prerequisites
+### Prerequisites
 
 To run this project, you need to have the following installed:
 
@@ -19,7 +19,7 @@ To run this project, you need to have the following installed:
 - Node.js and npm (for TailwindCSS)
 - `godotenv` package for Golang
 
-## Installation
+### Installation
 
 1. Clone the repository:
 
@@ -46,16 +46,20 @@ npx tailwindcss build src/styles.css -o static/css/tw.min.css
 go run server.go
 ```
 
-## Usage
+### Usage
 
 - Open a web browser and navigate to `http://localhost:8080` to view the SSE chat interface.
-- Use a telnet client to connect to the telnet service and send messages. Replace `TELNET_PORT` with the actual port number specified in your `.env` file:
+- Use a telnet client to connect to the telnet service and send messages. Replace `5023` with the actual port number specified in your `.env` file:
 
 ```bash
-telnet localhost TELNET_PORT
+telnet localhost 5023
+```
+or
+```bash
+tail -f /var/log/nginx/access.log | telnet localhost 5023
 ```
 
-- Messages sent via telnet will appear in real-time on the web interface.
+- Messages sent via telnet will appear in real-time on the web interface, `http://localhost:8080`. Replace `8080` with the actual port number specified in your `.env` file.
 
 ## Configuration
 
