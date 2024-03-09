@@ -50,7 +50,7 @@ Make sure you have configured your `.env` file. See below in the _Configuration_
 
 ### Usage
 
-- Open a web browser and navigate to `http://localhost:8080` to view the SSE chat interface.
+- Open a web browser and navigate to `http://localhost:8080` to view the SSE chat interface. Replace `8080` with the actual port number specified in your `.env` file.
 - Use a telnet client to connect to the telnet service and send messages. Replace `5023` with the actual port number specified in your `.env` file:
 
 ```bash
@@ -61,7 +61,7 @@ or
 tail -f /var/log/nginx/access.log | telnet localhost 5023
 ```
 
-- Messages sent via telnet will appear in real-time on the web interface, `http://localhost:8080`. Replace `8080` with the actual port number specified in your `.env` file.
+- Messages sent via telnet will appear in real-time on the web interface.
 
 ### Configuration
 
