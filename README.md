@@ -43,7 +43,7 @@ go run main.go
 or build a binary, and run the binary `telsse`
 
 ```bash
-go build
+CGO_ENABLED=0 go build -ldflags="-extldflags=-static"
 ./telsse
 ```
 Make sure you have configured your `.env` file. See below in the _Configuration_ section.
