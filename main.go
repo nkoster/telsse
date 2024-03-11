@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -49,7 +50,11 @@ func startTelnetServer() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer listener.Close()
+	defer func(listener net.Listener) {
+		if err := listener.Close(); err != nil {
+			log.Println("Error closing listener:", err)
+		}
+	}(listener)
 	log.Printf("Telnet server listening on port %s", telnetPort)
 
 	for {
@@ -63,7 +68,11 @@ func startTelnetServer() {
 }
 
 func handleTelnetConnection(conn net.Conn) {
-	defer conn.Close()
+	defer func(conn net.Conn) {
+		if err := conn.Close(); err != nil {
+			log.Println("Error closing connection:", err)
+		}
+	}(conn)
 	scanner := bufio.NewScanner(conn)
 
 	for scanner.Scan() {
@@ -83,7 +92,7 @@ func sendMessageToClients(message string) {
 	}
 }
 
-func sseHandler(w http.ResponseWriter, r *http.Request) {
+func sseHandler(w http.ResponseWriter, _ *http.Request) {
 	flusher, ok := w.(http.Flusher)
 	if !ok {
 		http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
@@ -105,13 +114,30 @@ func sseHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 
+	go func() {
+		for {
+			time.Sleep(30 * time.Second)
+			if _, err := fmt.Fprintf(w, "data: %s\n\n", ":heartbeat"); err != nil {
+				fmt.Println("Error sending heartbeat: ", err)
+			}
+			flusher, ok := w.(http.Flusher)
+			if ok {
+				flusher.Flush()
+			} else {
+				return
+			}
+		}
+	}()
+
 	for {
 		msg, open := <-client
 		if !open {
 			break
 		}
 
-		fmt.Fprintf(w, "data: %s\n\n", msg)
+		if _, err := fmt.Fprintf(w, "data: %s\n\n", msg); err != nil {
+			fmt.Println(err)
+		}
 		flusher.Flush()
 	}
 }
