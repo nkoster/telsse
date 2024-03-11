@@ -8,6 +8,14 @@ window.addEventListener('load', function () {
       return
     }
     newElement.className = 'text-green-400 font-mono whitespace-pre-wrap m-0 p-0'
+    const duration = event.data.split(' ')[1]
+    if (duration > .5 && duration < 1) {
+      newElement.classList.remove('text-green-400')
+      newElement.classList.add('orange')
+    } else if (duration >= 1) {
+      newElement.classList.remove('text-green-400')
+      newElement.classList.add('red')
+    }
     // Keep 500 messages in the container
     if (messagesContainer.childNodes.length > 499) {
       messagesContainer.removeChild(messagesContainer.firstChild)

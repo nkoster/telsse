@@ -9,6 +9,12 @@ html, body {
     display: flex;
     flex-direction: column;
 }
+.orange {
+    color: #ff8c00;
+}
+.red {
+    color: #ff2222;
+}
 #messages {
     flex-grow: 1;
     overflow-y: auto;
