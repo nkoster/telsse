@@ -8,7 +8,8 @@ window.addEventListener('load', function () {
       return
     }
     newElement.className = 'text-green-400 font-mono whitespace-pre-wrap m-0 p-0'
-    if (messagesContainer.childNodes.length > 500) {
+    // Keep 500 messages in the container
+    if (messagesContainer.childNodes.length > 499) {
       messagesContainer.removeChild(messagesContainer.firstChild)
     }
     messagesContainer.appendChild(newElement)
