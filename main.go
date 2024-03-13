@@ -118,7 +118,7 @@ func sseHandler(w http.ResponseWriter, _ *http.Request) {
 		for {
 			time.Sleep(30 * time.Second)
 			if _, err := fmt.Fprintf(w, "data: %s\n\n", ":heartbeat"); err != nil {
-				fmt.Println("Error sending heartbeat: ", err)
+				// Ignore error
 			}
 			flusher, ok := w.(http.Flusher)
 			if ok {
