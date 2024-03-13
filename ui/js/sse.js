@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
     const newElement = document.createElement('div')
     newElement.textContent = event.data
     if (event.data === ':heartbeat') {
+      console.log('Heartbeat received')
       return
     }
     newElement.className = 'text-green-400 font-mono whitespace-pre-wrap m-0 p-0'
